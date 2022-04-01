@@ -16,14 +16,8 @@ const Browse = () => {
 
     return (
         <section className={styles.container}>
-            {recipes ? (
-                <>
-                    <h1>Browse Recipes</h1>
-                    <RecipeDisplay recipes={recipes} />
-                </>
-            ) : (
-                <p>Loading recipes...</p>
-            )}
+            <h1>Browse Recipes</h1>
+            {recipes ? <RecipeDisplay recipes={recipes} /> : null}
         </section>
     );
 };

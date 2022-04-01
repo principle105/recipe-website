@@ -25,6 +25,10 @@
     margin-top: 2rem;
     width: 85%;
     margin-inline: auto;
+
+    :global {
+        animation: slideIn 0.5s forwards ease;
+    }
 }
 
 .title {
@@ -52,17 +56,27 @@
 .action_btns {
     display: flex;
     margin-top: 0.6rem;
+    gap: 0.25rem;
+    justify-content: flex-end;
 
     button {
-        margin-left: auto;
         padding: 0.6rem 1.5rem;
         border-radius: 7px;
         font-size: 1rem;
+        color: $base-light;
     }
 
     .save_btn {
+        background: $secondary;
+    }
+
+    .delete_btn {
         background: $primary;
-        color: $base-light;
+    }
+
+    .back_btn {
+        background: $base-dim;
+        margin-right: auto;
     }
 }
 

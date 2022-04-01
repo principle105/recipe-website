@@ -2,10 +2,13 @@ import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../context/LoginContext";
 
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
+
 import { toast } from "react-toastify";
 
 import { useParams } from "react-router-dom";
-import { fetchRecipe, updateRecipe } from "../utils/db";
+import { fetchRecipe, updateRecipe, deleteRecipe } from "../utils/db";
 
 import RichTextEditor from "../components/RichTextEditor";
 import { convertToRaw } from "draft-js";
@@ -24,7 +27,14 @@ const Recipe = () => {
 
     useEffect(() => {
         fetchRecipe(id).then((res) => {
-            setRecipe(res);
+            if (res) {
+                setRecipe(res);
+            } else {
+                toast.error("Invalid recipe", {
+                    toastId: "invalid-recipe",
+                });
+                navigate("/");
+            }
         });
     }, [id]);
 
@@ -53,19 +63,48 @@ const Recipe = () => {
         });
     };
 
-    return recipe ? (
+    const handleRecipeDelete = () => {
+        confirmAlert({
+            title: "Confirm Delete",
+            message: "Are you sure you want to delete this recipe?",
+            closeOnEscape: false,
+            closeOnClickOutside: false,
+            buttons: [
+                {
+                    label: "Yes",
+                    onClick: () => {
+                        deleteRecipe(recipe._id).then((res) => {
+                            if (res) {
+                                toast.success("Deleted recipe", {
+                                    toastId: "deleted",
+                                });
+                                navigate("/dashboard");
+                            }
+                        });
+                    },
+                },
+                {
+                    label: "No",
+                },
+            ],
+            overlayClassName: styles.modal,
+        });
+    };
+
+    return (
         <section className={styles.container}>
             <div className={styles.editor}>
-                <RichTextEditor
-                    readOnly={!(user && recipe.author === user._id)}
-                    initialTitle={recipe.title}
-                    initialEditor={recipe.data}
-                    save={save}
-                />
+                {recipe ? (
+                    <RichTextEditor
+                        readOnly={!(user && recipe.author === user._id)}
+                        initialTitle={recipe.title}
+                        initialEditor={recipe.data}
+                        save={save}
+                        deleteRecipe={handleRecipeDelete}
+                    />
+                ) : null}
             </div>
         </section>
-    ) : (
-        <p>Loading Recipe...</p>
     );
 };
 

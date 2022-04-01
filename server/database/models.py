@@ -32,6 +32,16 @@ class Recipe(Document):
 
         return recipe
 
+    async def delete_recipe(self):
+        await self.delete()
+
+        str_id = str(self.id)
+
+        recipe_id_cache[str_id] = None
+
+        if str_id in recipe_random_cache:
+            del recipe_random_cache[str_id]
+
     def cache_recipe(self):
         str_id = str(self.id)
 

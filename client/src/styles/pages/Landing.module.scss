@@ -9,6 +9,10 @@
         text-align: center;
         width: 80%;
 
+        :global {
+            animation: slideIn 0.8s forwards ease-in;
+        }
+
         h2 {
             font-size: 4rem;
             font-weight: 700;
@@ -26,7 +30,7 @@
             border-radius: 16px;
             background: $secondary;
             color: $base-light;
-            font-size: 0.9rem;
+            font-size: 1rem;
             transition: background-color 0.4s ease;
 
             &:hover {
@@ -34,4 +38,14 @@
             }
         }
     }
+
+    // @keyframes fadeIn {
+    //     from {
+    //         opacity: 0;
+    //         transform: translateY(7px);
+    //     }
+    //     to {
+    //         opacity: 1;
+    //     }
+    // }
 }

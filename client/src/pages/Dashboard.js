@@ -21,14 +21,16 @@ const Dashboard = () => {
 
     return (
         <RequireAuth>
-            <div className={styles.container}>
-                <h1>All Recipes Posted ({recipes ? recipes.length : 0})</h1>
-                {recipes && recipes.length > 0 ? (
-                    <RecipeDisplay recipes={recipes} />
-                ) : (
-                    <p>You have not posted any recipes</p>
-                )}
-            </div>
+            {recipes ? (
+                <div className={styles.container}>
+                    <h1>All Recipes Posted ({recipes ? recipes.length : 0})</h1>
+                    {recipes && recipes.length > 0 ? (
+                        <RecipeDisplay recipes={recipes} />
+                    ) : (
+                        <p>You have not posted any recipes</p>
+                    )}
+                </div>
+            ) : null}
         </RequireAuth>
     );
 };

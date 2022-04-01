@@ -43,6 +43,8 @@ export const fetchRecipe = (id) => {
             return res.data;
         })
         .catch((e) => {
+            if (e.response.status === 422) return null;
+
             toastError();
             return;
         });
@@ -63,6 +65,18 @@ export const createNewRecipe = (title, data) => {
 export const updateRecipe = (id, title, data) => {
     return api
         .post(`${url}/recipes/update`, { id, title, data })
+        .then((res) => {
+            return res.data;
+        })
+        .catch((e) => {
+            toastError();
+            return;
+        });
+};
+
+export const deleteRecipe = (id) => {
+    return api
+        .post(`${url}/recipes/delete`, { id })
         .then((res) => {
             return res.data;
         })

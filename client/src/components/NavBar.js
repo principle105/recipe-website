@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 
 import { LoginContext } from "../context/LoginContext";
 
-import logo from "../assets/logo.png";
+import logo from "../assets/logo.webp";
 
 import { url } from "../config";
 

@@ -1,5 +1,6 @@
 import React, { useRef, useCallback, useState } from "react";
 import { RichUtils, EditorState, convertFromRaw } from "draft-js";
+import { useNavigate } from "react-router-dom";
 
 import Editor from "@draft-js-plugins/editor";
 import createFocusPlugin from "@draft-js-plugins/focus";
@@ -54,7 +55,13 @@ const plugins = [
     linkifyPlugin,
 ];
 
-const RichTextEditor = ({ readOnly, save, initialTitle, initialEditor }) => {
+const RichTextEditor = ({
+    readOnly,
+    save,
+    deleteRecipe,
+    initialTitle,
+    initialEditor,
+}) => {
     let initialState = null;
 
     // Creating the initial state of the editor
@@ -70,6 +77,8 @@ const RichTextEditor = ({ readOnly, save, initialTitle, initialEditor }) => {
     const [title, setTitle] = useState(initialTitle || "");
 
     const editor = useRef(null);
+
+    const navigate = useNavigate();
 
     const handleKeyCommand = (command) => {
         const newState = RichUtils.handleKeyCommand(editorState, command);
@@ -139,16 +148,41 @@ const RichTextEditor = ({ readOnly, save, initialTitle, initialEditor }) => {
                     </Toolbar>
                 ) : null}
             </div>
-            {!readOnly ? (
-                <div className={styles.action_btns}>
-                    <button
-                        className={styles.save_btn}
-                        onClick={() => save(title, editorState)}
-                    >
-                        Save
-                    </button>
-                </div>
-            ) : null}
+            <div className={styles.action_btns}>
+                <button
+                    className={styles.back_btn}
+                    onClick={() => {
+                        if (
+                            window.history.state &&
+                            window.history.state.idx > 0
+                        ) {
+                            navigate(-1);
+                        } else {
+                            navigate("/", { replace: true });
+                        }
+                    }}
+                >
+                    Back
+                </button>
+                {!readOnly ? (
+                    <>
+                        {initialTitle ? (
+                            <button
+                                className={styles.delete_btn}
+                                onClick={deleteRecipe}
+                            >
+                                Delete
+                            </button>
+                        ) : null}
+                        <button
+                            className={styles.save_btn}
+                            onClick={() => save(title, editorState)}
+                        >
+                            Save
+                        </button>
+                    </>
+                ) : null}
+            </div>
         </section>
     );
 };

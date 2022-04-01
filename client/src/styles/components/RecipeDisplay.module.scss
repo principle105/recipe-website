@@ -6,6 +6,10 @@
     grid-auto-rows: 1fr;
     gap: 1rem;
 
+    :global {
+        animation: slideIn 0.65s forwards ease;
+    }
+
     .recipe {
         background: $base-white;
         border-radius: 5px;

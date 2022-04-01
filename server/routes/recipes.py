@@ -103,6 +103,36 @@ async def update_recipe(request: Request):
     raise HTTPException(404, "User not found")
 
 
+@recipes_router.post("/delete")
+async def update_recipe(request: Request):
+    payload = await request.json()
+
+    if "id" not in payload:
+        raise HTTPException(422, "Missing recipe id")
+
+    email = request.session.get("user")
+
+    if email:
+        user = await User.from_email(email)
+
+        if user is not None:
+            recipe_id = PydanticObjectId(payload["id"])
+
+            if recipe_id not in user.recipes:
+                raise HTTPException(401, "Recipe does not belong to user")
+
+            recipe = await Recipe.from_id(recipe_id)
+
+            if recipe is None:
+                raise HTTPException(404, "Recipe not found")
+
+            await recipe.delete_recipe()
+
+            return {"hello": "world"}
+
+    raise HTTPException(404, "User not found")
+
+
 @recipes_router.get("/find/{id}", response_model=Recipe)
 async def new_recipe(*, id: PydanticObjectId = Path(None)):
     recipe = await Recipe.from_id(id)

@@ -1,7 +1,28 @@
+@import "../vars.scss";
+
 .container {
     margin-top: 2rem;
 
     h1 {
         margin-bottom: 1.5rem;
+        font-size: 2rem;
+    }
+}
+
+.modal {
+    div {
+        font-family: $font;
+        border-radius: 6px;
+    }
+
+    button {
+        padding: 0.5rem 2.25rem;
+        font-size: 0.8rem;
+        background: $primary;
+        transition: background-color 0.4s ease;
+
+        &:hover {
+            background: $secondary;
+        }
     }
 }
