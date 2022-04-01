@@ -1,0 +1,16 @@
+@import "../vars.scss";
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 1fr;
+    gap: 1rem;
+
+    .recipe {
+        background: $base-white;
+        border-radius: 5px;
+        padding: 1rem;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+    }
+}

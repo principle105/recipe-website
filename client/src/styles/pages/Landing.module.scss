@@ -1,0 +1,37 @@
+@import "../vars.scss";
+
+.hero {
+    margin-top: 6rem;
+    display: flex;
+    justify-content: center;
+
+    .container {
+        text-align: center;
+        width: 80%;
+
+        h2 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        p {
+            font-size: 1.5rem;
+            margin-bottom: 2.3rem;
+            color: $base-dim;
+        }
+
+        a {
+            padding: 0.9rem 1.8rem;
+            border-radius: 16px;
+            background: $secondary;
+            color: $base-light;
+            font-size: 0.9rem;
+            transition: background-color 0.4s ease;
+
+            &:hover {
+                background: $primary;
+            }
+        }
+    }
+}
