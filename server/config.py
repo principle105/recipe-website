@@ -7,7 +7,7 @@ class Settings(BaseModel):
 
     secret = config("SECRET")
 
-    client_url = "http://localhost:3000"
+    client_url = config("CLIENT_URL")
 
     # Google Auth
     google_client_id = config("GOOGLE_CLIENT_ID")
