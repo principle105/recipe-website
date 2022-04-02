@@ -46,8 +46,8 @@ const Dropdown = ({ close, innerRef }) => {
     );
 };
 
-const Navbar = () => {
-    const { user, fetched } = useContext(LoginContext);
+const NavItems = ({ user, fetched }) => {
+    const [showMenu, setShowMenu] = useState(false);
 
     const [dropdown, setDropdown] = useState(false);
 
@@ -64,15 +64,79 @@ const Navbar = () => {
         }
     };
 
-    const close = () => {
-        setDropdown(false);
-    };
-
     useEffect(() => {
         document.addEventListener("mousedown", handleClickOutside);
         return () =>
             document.removeEventListener("mousedown", handleClickOutside);
     });
+
+    return (
+        <nav className={styles.links}>
+            <ul className={showMenu ? null : styles.off}>
+                {fetched ? (
+                    <>
+                        {showMenu ? (
+                            <i
+                                className="fas fa-times"
+                                onClick={() => setShowMenu(false)}
+                            ></i>
+                        ) : (
+                            <i
+                                className="fas fa-bars"
+                                onClick={() => setShowMenu(true)}
+                            ></i>
+                        )}
+
+                        <div className={styles.nav_items}>
+                            <NavItem
+                                name="Browse"
+                                link="/browse"
+                                click={() => setShowMenu(false)}
+                            />
+                            {user ? (
+                                <NavItem
+                                    name="Create"
+                                    link="/create"
+                                    click={() => setShowMenu(false)}
+                                />
+                            ) : null}
+                        </div>
+
+                        {user ? (
+                            <img
+                                className={styles.avatar}
+                                onClick={() => setDropdown(!dropdown)}
+                                ref={imgRef}
+                                src={user.avatar}
+                                alt="User avatar"
+                            />
+                        ) : (
+                            <li>
+                                <button
+                                    onClick={() =>
+                                        (window.location.href = `${url}/auth/login`)
+                                    }
+                                    className={styles.login}
+                                >
+                                    Login
+                                </button>
+                            </li>
+                        )}
+                    </>
+                ) : null}
+            </ul>
+            {dropdown ? (
+                <Dropdown
+                    innerRef={dropdownRef}
+                    close={() => setDropdown(false)}
+                />
+            ) : null}
+        </nav>
+    );
+};
+
+const Navbar = () => {
+    const { user, fetched } = useContext(LoginContext);
 
     return (
         <header>
@@ -82,46 +146,7 @@ const Navbar = () => {
                     <h3>Recipe Website</h3>
                 </Link>
 
-                <nav className={styles.links}>
-                    <ul>
-                        {fetched ? (
-                            <>
-                                <NavItem name="Browse" link="/browse" />
-                                {user ? (
-                                    <>
-                                        <NavItem name="Create" link="/create" />
-                                        <img
-                                            className={styles.avatar}
-                                            onClick={() =>
-                                                setDropdown(!dropdown)
-                                            }
-                                            ref={imgRef}
-                                            src={user.avatar}
-                                            alt="User avatar"
-                                        />
-                                        {dropdown ? (
-                                            <Dropdown
-                                                innerRef={dropdownRef}
-                                                close={close}
-                                            />
-                                        ) : null}
-                                    </>
-                                ) : (
-                                    <li>
-                                        <button
-                                            onClick={() =>
-                                                (window.location.href = `${url}/auth/login`)
-                                            }
-                                            className={styles.login}
-                                        >
-                                            Login
-                                        </button>
-                                    </li>
-                                )}
-                            </>
-                        ) : null}
-                    </ul>
-                </nav>
+                <NavItems {...{ user, fetched }} />
             </div>
         </header>
     );

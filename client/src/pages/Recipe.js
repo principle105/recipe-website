@@ -36,7 +36,7 @@ const Recipe = () => {
                 navigate("/");
             }
         });
-    }, [id]);
+    }, [id, navigate]);
 
     const save = (title, editorState) => {
         const data = convertToRaw(editorState.getCurrentContent());

@@ -149,21 +149,17 @@ const RichTextEditor = ({
                 ) : null}
             </div>
             <div className={styles.action_btns}>
-                <button
-                    className={styles.back_btn}
-                    onClick={() => {
-                        if (
-                            window.history.state &&
-                            window.history.state.idx > 0
-                        ) {
+                {window.history.state && window.history.state.idx > 0 ? (
+                    <button
+                        className={styles.back_btn}
+                        onClick={() => {
                             navigate(-1);
-                        } else {
-                            navigate("/", { replace: true });
-                        }
-                    }}
-                >
-                    Back
-                </button>
+                        }}
+                    >
+                        Back
+                    </button>
+                ) : null}
+
                 {!readOnly ? (
                     <>
                         {initialTitle ? (
