@@ -14,4 +14,4 @@ RUN poetry export -f requirements.txt -o requirements.txt --without-hashes
 RUN pip install -r requirements.txt
 
 COPY . .
-CMD [ "sh", "-c", "uvicorn main:app --host=0.0.0.0 --port=${PORT:-5000}"]
+CMD [ "sh", "-c", "uvicorn main:app --host=0.0.0.0 --port=${PORT:-5000} --proxy-headers"]
