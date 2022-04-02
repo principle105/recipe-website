@@ -5,20 +5,26 @@
 
     h1 {
         margin-bottom: 1.5rem;
-        font-size: 2rem;
+        font-size: 2.25rem;
+        text-align: center;
     }
 }
 
 .modal {
     div {
         font-family: $font;
-        border-radius: 6px;
+        border-radius: 7px;
+
+        h1 {
+            font-size: 2.1rem;
+        }
     }
 
     button {
-        padding: 0.5rem 2.25rem;
-        font-size: 0.8rem;
+        padding: 0.55rem 2.35rem;
+        font-size: 0.9rem;
         background: $primary;
+        border-radius: 7px;
         transition: background-color 0.4s ease;
 
         &:hover {
