@@ -65,9 +65,11 @@ class Recipe(Document):
             cache_amt = 0
             start = []
 
-        results = cls.aggregate([{"$sample": {"size": amt - cache_amt}}])
+        start_ids = [s.id for s in start]
 
-        items = [cls(**r) async for r in results]
+        results = cls.find({"_id": {"$nin": start_ids}}).limit(amt - cache_amt)
+
+        items = [r async for r in results]
 
         # Caching the new results
         for it in items:
