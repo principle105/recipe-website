@@ -1,4 +1,5 @@
 import random
+import time
 
 from beanie import Document, PydanticObjectId
 from pydantic import EmailStr
@@ -8,7 +9,9 @@ user_email_cache = {}
 
 # Recipe cache
 recipe_id_cache = {}
+
 recipe_random_cache = {}
+recipe_random_last_update = 0
 
 
 class Recipe(Document):
@@ -50,29 +53,29 @@ class Recipe(Document):
 
     @classmethod
     async def get_random(cls, amt: int):
-        # Returning all from the cache if there are enough in the cache
-        if recipe_random_cache:
-            cache_amt = min(len(recipe_random_cache), int(amt / 2))
+        # WOWO GLOBAL oiwefnow
+        global recipe_random_cache
+        global recipe_random_last_update
 
-            start = random.sample(
-                list(recipe_random_cache.values()),
-                cache_amt,
-            )
-        else:
-            cache_amt = 0
-            start = []
+        if (
+            recipe_random_cache is False
+            or time.time() > recipe_random_last_update + 300
+        ):
+            results = cls.aggregate([{"$sample": {"size": amt}}])
 
-        start_ids = [s.id for s in start]
+            items = [cls(**r) async for r in results]
 
-        results = cls.find({"_id": {"$nin": start_ids}}).limit(amt - cache_amt)
+            recipe_random_cache = {str(n.id): n for n in items}
+            recipe_random_last_update = time.time()
 
-        items = [r async for r in results]
+            for it in items:
+                it.cache_recipe()
 
-        # Caching the new results
-        for it in items:
-            it.cache_recipe()
+            return items
 
-        return start + items
+        values = list(recipe_random_cache.values())
+
+        return random.sample(values, min(len(values), amt))
 
 
 class User(Document):

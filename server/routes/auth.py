@@ -29,7 +29,7 @@ async def login(request: Request):
     redirect_uri = request.url_for("redirect")
 
     # Making sure the url is https
-    redirect_uri = redirect_uri.replace("http", "https", 1)
+    # redirect_uri = redirect_uri.replace("http", "https", 1)
 
     return await oauth.google.authorize_redirect(request, redirect_uri)
 
