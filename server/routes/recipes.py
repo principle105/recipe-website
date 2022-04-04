@@ -24,7 +24,7 @@ async def me(request: Request):
 
 @recipes_router.get("/random", response_model=list[Recipe])
 async def random_recipes():
-    return await Recipe.get_random(12)
+    return await Recipe.get_random(16)
 
 
 @recipes_router.post("/new")

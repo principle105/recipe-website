@@ -6,18 +6,27 @@ import { fetchRandomRecipes } from "../utils/db";
 const Browse = () => {
     const [recipes, setRecipes] = useState(null);
 
-    useEffect(() => {
+    const updateRecipes = () => {
         fetchRandomRecipes().then((res) => {
             if (res) {
                 setRecipes(res);
             }
         });
+    };
+
+    useEffect(() => {
+        updateRecipes();
     }, []);
 
     return (
         <section className={styles.container}>
             <h1>Browse Recipes</h1>
+            <p>Results update every 5 minutes</p>
+
             {recipes ? <RecipeDisplay recipes={recipes} /> : null}
+            <button className={styles.refresh} onClick={updateRecipes}>
+                Refresh
+            </button>
         </section>
     );
 };
