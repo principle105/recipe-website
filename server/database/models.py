@@ -51,9 +51,6 @@ class Recipe(Document):
     @classmethod
     async def get_random(cls, amt: int):
         # Returning all from the cache if there are enough in the cache
-        if len(recipe_random_cache) > amt * 3:
-            return random.sample(list(recipe_random_cache.values()), amt)
-
         if recipe_random_cache:
             cache_amt = min(len(recipe_random_cache), int(amt / 2))
 
