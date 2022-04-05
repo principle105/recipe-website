@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 
 import { createNewRecipe } from "../utils/db";
 
+import { handleTextEditing } from "../utils/misc";
+
 const Create = () => {
     const { setUser } = useContext(LoginContext);
 
@@ -19,12 +21,9 @@ const Create = () => {
     const save = (title, editorState) => {
         const data = convertToRaw(editorState.getCurrentContent());
 
-        if (!title) {
-            toast.error("You are missing a title", {
-                toastId: "missing-title",
-            });
-            return;
-        }
+        const results = handleTextEditing(title, editorState);
+
+        if (!results) return;
 
         createNewRecipe(title, data).then((res) => {
             if (res) {

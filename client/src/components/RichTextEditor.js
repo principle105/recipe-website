@@ -148,6 +148,7 @@ const RichTextEditor = ({
                     </Toolbar>
                 ) : null}
             </div>
+
             <div className={styles.action_btns}>
                 {window.history.state && window.history.state.idx > 0 ? (
                     <button

@@ -9,15 +9,19 @@ import styles from "../styles/pages/Dashboard.module.scss";
 const Dashboard = () => {
     const [recipes, setRecipes] = useState(null);
 
-    const { user } = useContext(LoginContext);
+    const { user, setUser } = useContext(LoginContext);
 
     useEffect(() => {
         if (user) {
             fetchUserRecipes().then((res) => {
-                setRecipes(res);
+                if (res !== null) {
+                    setRecipes(res);
+                } else {
+                    setUser(null);
+                }
             });
         }
-    }, [user]);
+    }, [user, setUser]);
 
     return (
         <RequireAuth>

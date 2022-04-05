@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 
 import { useParams } from "react-router-dom";
 import { fetchRecipe, updateRecipe, deleteRecipe } from "../utils/db";
+import { handleTextEditing } from "../utils/misc";
 
 import RichTextEditor from "../components/RichTextEditor";
 import { convertToRaw } from "draft-js";
@@ -39,20 +40,18 @@ const Recipe = () => {
     }, [id, navigate]);
 
     const save = (title, editorState) => {
+        console.log(title.length);
+
         const data = convertToRaw(editorState.getCurrentContent());
 
-        if (!title) {
-            toast.error("You are missing a title", {
-                toastId: "missing-title",
-            });
-            return;
-        }
+        const results = handleTextEditing(title, editorState);
+
+        if (!results) return;
 
         if (deepEqual(data, recipe.data) && title === recipe.title) {
-            toast.error("You haven't made any changes", {
+            return toast.error("You haven't made any changes", {
                 toastId: "no-changes",
             });
-            return;
         }
 
         updateRecipe(recipe._id, title, data).then((res) => {

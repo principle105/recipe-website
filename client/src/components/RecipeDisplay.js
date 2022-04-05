@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
+import { recipeCreation } from "../utils/misc";
+
 import styles from "../styles/components/RecipeDisplay.module.scss";
 
 const RecipeDisplay = ({ recipes }) => {
@@ -14,6 +16,7 @@ const RecipeDisplay = ({ recipes }) => {
                     onClick={() => navigate(`/recipe/${r._id}`)}
                 >
                     <h2>{r.title}</h2>
+                    <p>{recipeCreation(r._id)}</p>
                 </div>
             ))}
         </div>
