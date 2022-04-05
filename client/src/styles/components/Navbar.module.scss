@@ -33,7 +33,7 @@ header {
 }
 
 .links {
-    & > ul,
+    & > div,
     .nav_items {
         display: flex;
         align-items: center;
@@ -155,7 +155,7 @@ header {
             order: 1;
         }
 
-        & > ul {
+        & > div {
             gap: 2rem;
         }
     }

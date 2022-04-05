@@ -70,12 +70,11 @@ class Recipe(Document):
 
             for it in items:
                 it.cache_recipe()
+        else:
 
-            return items
+            items = list(recipe_random_cache.values())
 
-        values = list(recipe_random_cache.values())
-
-        return random.sample(values, min(len(values), amt))
+        return random.sample(items, min(len(items), amt))
 
 
 class User(Document):

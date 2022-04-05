@@ -72,7 +72,7 @@ const NavItems = ({ user, fetched }) => {
 
     return (
         <nav className={styles.links}>
-            <ul className={showMenu ? null : styles.off}>
+            <div className={showMenu ? null : styles.off}>
                 {fetched ? (
                     <>
                         {showMenu ? (
@@ -87,7 +87,7 @@ const NavItems = ({ user, fetched }) => {
                             ></i>
                         )}
 
-                        <div className={styles.nav_items}>
+                        <ul className={styles.nav_items}>
                             <NavItem
                                 name="Browse"
                                 link="/browse"
@@ -100,7 +100,7 @@ const NavItems = ({ user, fetched }) => {
                                     click={() => setShowMenu(false)}
                                 />
                             ) : null}
-                        </div>
+                        </ul>
 
                         {user ? (
                             <img
@@ -109,22 +109,22 @@ const NavItems = ({ user, fetched }) => {
                                 ref={imgRef}
                                 src={user.avatar}
                                 alt="User avatar"
+                                width={50}
+                                height={50}
                             />
                         ) : (
-                            <li>
-                                <button
-                                    onClick={() =>
-                                        (window.location.href = `${url}/auth/login`)
-                                    }
-                                    className={styles.login}
-                                >
-                                    Login
-                                </button>
-                            </li>
+                            <button
+                                onClick={() =>
+                                    (window.location.href = `${url}/auth/login`)
+                                }
+                                className={styles.login}
+                            >
+                                Login
+                            </button>
                         )}
                     </>
                 ) : null}
-            </ul>
+            </div>
             {dropdown ? (
                 <Dropdown
                     innerRef={dropdownRef}
@@ -142,7 +142,7 @@ const Navbar = () => {
         <header>
             <div className={styles.container}>
                 <Link to="/" className={styles.logo}>
-                    <img src={logo} alt="recipe logo" />
+                    <img src={logo} alt="Recipe logo" width={52} height={52} />
                     <h3>Recipe Website</h3>
                 </Link>
 

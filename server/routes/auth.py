@@ -1,10 +1,10 @@
 from authlib.integrations.starlette_client import OAuth, OAuthError
 from config import CONFIG
 from database.models import User
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from starlette.config import Config
 from starlette.requests import Request
-from starlette.responses import HTMLResponse, RedirectResponse
+from starlette.responses import RedirectResponse
 
 auth_router = APIRouter(prefix="/auth")
 
@@ -40,7 +40,7 @@ async def redirect(request: Request):
     try:
         token = await oauth.google.authorize_access_token(request)
     except OAuthError as error:
-        return HTMLResponse(f"<h1>{error.error}</h1>")
+        raise HTTPException(500, error.error)
 
     user_info = token.get("userinfo")
 
