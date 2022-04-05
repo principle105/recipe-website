@@ -61,7 +61,7 @@ class Recipe(Document):
             recipe_random_cache is False
             or time.time() > recipe_random_last_update + 300
         ):
-            results = cls.aggregate([{"$sample": {"size": amt}}])
+            results = cls.aggregate([{"$sample": {"size": amt * 5}}])
 
             items = [cls(**r) async for r in results]
 
