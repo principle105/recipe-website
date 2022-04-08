@@ -37,7 +37,14 @@ const theme = {
 const staticToolbarPlugin = createToolbarPlugin();
 const focusPlugin = createFocusPlugin();
 const textAlignmentPlugin = createTextAlignmentPlugin();
-const linkifyPlugin = createLinkifyPlugin();
+const linkifyPlugin = createLinkifyPlugin({
+    component(props) {
+        console.log(props);
+        return (
+            <a {...props} onClick={() => window.open(props.href, "_blank")} />
+        );
+    },
+});
 const undoPlugin = createUndoPlugin({
     undoContent: "Undo",
     redoContent: "Redo",
